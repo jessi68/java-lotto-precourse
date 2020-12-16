@@ -15,12 +15,8 @@ public class WinningLotto {
 
     public Rank match(Lotto userLotto) {
         int countOfMatch = this.lotto.sameNumCount(userLotto);
-        boolean matchBonus = this.isBonusEqual(userLotto);
+        boolean matchBonus = this.lotto.isBonusEqual(userLotto);
         return Rank.valueOf(countOfMatch, matchBonus);
-    }
-
-    public boolean isBonusEqual(Lotto userLotto) {
-        return this.bonusNo == userLotto.getNum(BONUS_NUM_INDEX);
     }
 
 }
