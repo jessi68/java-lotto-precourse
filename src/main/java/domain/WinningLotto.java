@@ -16,4 +16,8 @@ public class WinningLotto {
         // TODO 로직 구현
         return null;
     }
+
+   // 자리가 같고 숫자가 같은 게 몇개 있고, 보너스 번호 여부에 따라 2,3 등 가르기
+
+
 }
