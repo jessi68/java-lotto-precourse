@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class Lotto {
 
-    private final static int NUM_COUNT = 6;
+    private final static int NUM_COUNT = 5;
     private final List<Integer> numbers;
     public Lotto(List<Integer> numbers) {
         this.numbers = numbers;
@@ -26,5 +26,5 @@ public class Lotto {
         }
         return count;
     }
-    // 추가 기능 구현
+
 }

@@ -5,6 +5,7 @@ package domain;
  */
 public class WinningLotto {
     private final Lotto lotto;
+    private final int BONUS_NUM_INDEX = 5;
     private final int bonusNo;
 
     public WinningLotto(Lotto lotto, int bonusNo) {
@@ -13,12 +14,13 @@ public class WinningLotto {
     }
 
     public Rank match(Lotto userLotto) {
-        // TODO 로직 구현
-        return null;
+        int countOfMatch = this.lotto.sameNumCount(userLotto);
+        boolean matchBonus = this.isBonusEqual(userLotto);
+        return Rank.valueOf(countOfMatch, matchBonus);
     }
 
-
-   // 자리가 같고 숫자가 같은 게 몇개 있고, 보너스 번호 여부에 따라 2,3 등 가르기
-
+    public boolean isBonusEqual(Lotto userLotto) {
+        return this.bonusNo == userLotto.getNum(BONUS_NUM_INDEX);
+    }
 
 }
