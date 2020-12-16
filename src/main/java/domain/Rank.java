@@ -1,5 +1,8 @@
 package domain;
 
+import exception.LottoGameException;
+import java.util.Arrays;
+
 /**
  * 로또 등수를 의미하는 enum
  */
@@ -12,7 +15,7 @@ public enum Rank {
     MISS(0, 0);
 
     private static final int WINNING_MIN_COUNT = 3;
-
+    private static final String NOT_VALID_VALUE = "는 유효하지 않은 값입니다.";
     private int countOfMatch;
     private int winningMoney;
 
@@ -29,22 +32,31 @@ public enum Rank {
         return winningMoney;
     }
 
+    public static boolean defeated(int countOfMatch) {
+        return countOfMatch < WINNING_MIN_COUNT;
+    }
+
+    public static boolean isSecond(int countOfMatch, boolean matchBonus) {
+        return SECOND.matchCount(countOfMatch) && matchBonus;
+    }
+
     public static Rank valueOf(int countOfMatch, boolean matchBonus) {
-        if (countOfMatch < WINNING_MIN_COUNT) {
-            return MISS;
-        }
-
-        if (SECOND.matchCount(countOfMatch) && matchBonus) {
-            return SECOND;
-        }
-
-        for (Rank rank : values()) {
-            if (rank.matchCount(countOfMatch)) {
-                return rank;
+        try {
+            if (defeated(countOfMatch)) {
+                return MISS;
             }
-        }
 
-        throw new IllegalArgumentException(countOfMatch + "는 유효하지 않은 값입니다.");
+            if (isSecond(countOfMatch, matchBonus)) {
+                return SECOND;
+            }
+
+            return Arrays.stream(values())
+                  .filter(rank -> rank.matchCount(countOfMatch))
+                  .findFirst()
+                  .get();
+        } catch(Exception e) {
+            throw new LottoGameException(countOfMatch + NOT_VALID_VALUE);
+        }
     }
 
     private boolean matchCount(int countOfMatch) {
