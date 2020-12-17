@@ -1,15 +1,28 @@
 package domain;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class User {
 
-    private LottoRepository lottoRepository;
+    private List<Lotto> lottoRepository;
+    private HashMap<Rank, Integer> rankStatistics;
     private Rank rank;
 
-    User(LottoRepository lottoRepository) {
+    User(List<Lotto> lottoRepository) {
         this.lottoRepository = lottoRepository;
     }
 
-    public void
+    public HashMap<Rank, Integer> getRankStatistics() {
+        return rankStatistics;
+    }
+
+    private void updateRankStatistics(WinningLotto winningLotto) {
+        Rank curRank;
+        for(Lotto lotto: lottoRepository) {
+            curRank = winningLotto.match(lotto);
+            rankStatistics.put(curRank, rankStatistics.get(curRank) + 1);
+        }
+    }
+
 }
