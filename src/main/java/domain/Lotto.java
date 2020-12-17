@@ -11,10 +11,8 @@ import utils.RandomUtils;
 public class Lotto {
 
     private final static int BONUS_INDEX = 5;
-    private final static int NUM_COUNT = 6;
-    private final static int MIN_NUM = 1;
-    private final static int MAX_NUM = 45;
-    private List<Integer> numbers = new ArrayList<>();
+    private final static int COUNT_OF_NUM = 6;
+    private final List<Integer> numbers;
 
     public Lotto(List<Integer> numbers) {
         this.numbers = numbers;
@@ -28,9 +26,9 @@ public class Lotto {
         return this.getNum(BONUS_INDEX) == userLotto.getNum(BONUS_INDEX);
     }
 
-    public int sameNumCount(Lotto userLotto) {
+    public int countOfSameNum(Lotto userLotto) {
         int count = 0;
-        for(int index = 0; index < BONUS_INDEX; index++) {
+        for(int index = 0; index < COUNT_OF_NUM; index++) {
             if(this.getNum(index) == userLotto.getNum(index)) {
                 count += 1;
             }
