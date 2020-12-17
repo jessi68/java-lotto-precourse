@@ -10,6 +10,7 @@ public class InputView {
 
     private static final String INPUT_LAST_WINNER_NUM = "지난 주 당첨번호를 입력해 주세요.";
     private static final String INPUT_BONUS_NUM = "보너스 볼을 입력해 주세요.";
+    private static final String INPUT_PURCHASE_MONEY = "구입금액을 입력해주세요.";
     private static final String DELIMITER = ",";
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -17,12 +18,22 @@ public class InputView {
 
     }
 
-    public static String input(String inputMessage) {
+    private static String input(String inputMessage) {
         System.out.println(inputMessage);
         return scanner.next();
     }
 
-    public static List<Integer> strToIntList(String target) {
+    public static int inputPurchaseMoney() {
+        try {
+            int money = Integer.parseInt(input(INPUT_PURCHASE_MONEY));
+            Validator.isValidMoney(money);
+            return money;
+        } catch(LottoGameException e) {
+            return inputPurchaseMoney();
+        }
+    }
+
+    private static List<Integer> strToIntList(String target) {
         try {
             String[] targetArray = target.split(",");
             List<Integer> integerList = new ArrayList<>();
@@ -35,7 +46,6 @@ public class InputView {
         } catch(LottoGameException e){
             throw new LottoGameException(e.getMessage());
         }
-
     }
 
     public static List<Integer> inputWinnerNums() {
