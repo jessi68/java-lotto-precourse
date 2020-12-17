@@ -1,8 +1,10 @@
 package view;
 
+import exception.LottoGameException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import validation.Validator;
 
 public class InputView {
 
@@ -20,21 +22,38 @@ public class InputView {
         return scanner.next();
     }
 
-    public static List<Integer> strToIntList(String string) {
-        String[] strArray = string.split(",");
-        List<Integer> integerList = new ArrayList<>();
-        for(int i = 0; i < strArray.length; i++) {
-            integerList.add(Integer.parseInt(strArray[i]));
+    public static List<Integer> strToIntList(String target) {
+        try {
+            String[] targetArray = target.split(",");
+            List<Integer> integerList = new ArrayList<>();
+            for (int i = 0; i < targetArray.length; i++) {
+                Validator.checkNumType(targetArray[i]);
+                Validator.checkValidRange(Integer.parseInt(targetArray[i]));
+                integerList.add(Integer.parseInt(targetArray[i]));
+            }
+            return integerList;
+        } catch(LottoGameException e){
+            throw new LottoGameException(e.getMessage());
         }
-        return integerList;
+
     }
 
     public static List<Integer> inputWinnerNums() {
-        String string = input(INPUT_LAST_WINNER_NUM);
-        return strToIntList(string);
+        try {
+            String string = input(INPUT_LAST_WINNER_NUM);
+            return strToIntList(string);
+        } catch(LottoGameException e){
+            return inputWinnerNums();
+        }
     }
 
     public static int inputBonusNum() {
-        return Integer.parseInt(input(INPUT_BONUS_NUM));
+        try {
+            Validator.checkNumType(input(INPUT_BONUS_NUM));
+            return Integer.parseInt(input(INPUT_BONUS_NUM));
+        } catch(LottoGameException e) {
+            return inputBonusNum();
+        }
     }
+
 }
